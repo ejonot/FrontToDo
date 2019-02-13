@@ -1,0 +1,58 @@
+
+<nav class="navbar sticky-top navbar-dark bg-info">
+  <a class="navbar-brand" href="#">TachesDown</a>
+
+  <div class="form-inline" >
+    <div class="btn-group" role="group" aria-label="etats">
+      <label class="image-checkbox" title="état : ouvert">
+        <input type="checkbox"  [(ngModel)]="etats[1]" />
+        <i  class="fa fa-play fa-2x" ></i>
+      </label>
+&nbsp;
+      <label class="image-checkbox" title="état : pause">
+        <input type="checkbox" [(ngModel)]="etats[2]"/>
+        <i  class="fa fa-pause fa-2x "></i>
+      </label>
+      &nbsp;
+      <label class="image-checkbox" title="état : fermé">
+        <input type="checkbox"  [(ngModel)]="etats[0]" />
+        <i  class="fa fa-check-square fa-2x"></i>
+      </label>
+&nbsp;
+    </div>
+
+
+    <select class="form-control" id="categoriesSelect" [(ngModel)]="categorie"  name="categorie">
+      <option></option>
+      <option *ngFor="let categorie of categories ; ">{{categorie}}</option>
+    </select>
+
+    <input class="form-control" type="search" placeholder="Recherche" aria-label="Search" [(ngModel)]="texte">
+
+  </div>
+</nav>
+
+<div class="container"  style="padding:20px;" *ngIf="taches?.length > 0">
+
+  <div clas="row" *ngFor="let tache of taches ; let i=index; "  >
+
+    <div *ngIf="!estEdite(i) && estFiltre(i)" class="col-12 btn btn-outline-info" data-toggle="tooltip" title="{{tache.description}}"
+    draggable="true" (dragstart)="onDragStart($event);" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+    [attr.data-index]="i">
+    {{tache.titre}}
+    <i *ngIf="!estCreation() && !estEdition()" class="fa fa-edit" (click)="editer(i);" style="float:right;"></i>
+  </div>
+
+  <app-edition-tache  *ngIf="estEdite(i)" (edite)="getTaches()"></app-edition-tache>
+
+</div>
+
+</div>
+
+<div class="text-center" *ngIf="!estCreation() && !estEdition()">
+  <button class='btn btn-primary col-4' (click)="creer()">Créer </button>
+</div>
+
+<app-edition-tache  *ngIf="estCreation()" (edite)="getTaches()"></app-edition-tache>
+
+<br/>

@@ -1,0 +1,112 @@
+
+  <form  class="border border-info rounded form " #f="ngForm" style="color: #fff; background-color: #17a2b8;" (ngSubmit)='soumettre(f)' action="post" *ngIf="charge"  >
+
+    <button type="button" class="close" (click)="sortir();"  aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button><div class="row" >
+
+ <div class="col-9">
+  <input  type='text' name='titre' [ngModel]="[tache?.titre]" class="form-control " placeholder="Titre"/>
+ </div>
+
+<div class="col-3 ">
+
+
+    <input type='text' name='categorie' [ngModel]="[tache?.categorie]"  class="form-control" placeholder="Categorie" />
+
+    </div>
+
+  </div>
+
+
+<div class="row" style="margin-top:0.5em;">
+<div class="col-9">
+<textarea type='text' name='description' [ngModel]="[tache?.description]" class="form-control " placeholder="Description" rows="3"></textarea>
+</div>
+
+<!-- <div class="input-group col-8">
+ <div class="input-group-prepend">
+   <span class="input-group-text" style="color: #fff; background-color: #17a2b8; margin:0; border:0;" id="description">Description</span>
+ </div>
+ <textarea type='text' name='description' [ngModel]="[tache?.description]" class="form-control col-8" placeholder="Description"></textarea>
+</div> -->
+
+<div class="col-3" style="line-height:1.4;" >
+
+  <div class="input-group ">
+  <input type='date' name='deadline' [ngModel]="[tache?.deadline] | date :'yyyy-MM-dd'" class="form-control col-8"/>
+  <div class="input-group-append">
+      <span class="input-group-text " id="deadline" style="color: #fff; background-color: #17a2b8; "  >Deadline</span>
+    </div>
+  </div>
+
+  <!-- <div class="btn-group btn-group-toggle" role="group" aria-label="etat" data-toggle="buttons" id="etats" onClick='majClasseEtats();' >
+  <label class="btn btn-secondary " [class.active]="active(1)" >
+  <input type="radio" name="etat"  [ngModel]="[tache?.etat]"   value="1" ng-checked="isactive(1)"> Ouvert
+  </label>
+  <label class="btn btn-secondary "  [class.active]="active(2)" >
+  <input type="radio" name="etat"  [ngModel]="[tache?.etat]"   value="2" ng-checked="isactive(2)"> En pause
+  </label>
+  <label class="btn btn-secondary "   [class.active]="active(0)">
+  <input type="radio" name="etat"   [ngModel]="[tache?.etat]"  value="0" ng-checked="isactive(0)"> Fermé
+  </label>
+  </div> -->
+  <div class="input-group ">
+  <select name='etat' [ngModel]="[tache?.etat]" class="form-control col-8">
+       <option value="1" ng-selected="isactive(1)"> Ouvert</option>
+       <option value="2" ng-selected="isactive(2)"> En pause</option>
+       <option value="0" ng-selected="isactive(0)"> Fermé</option>
+  </select>
+
+  <div class="input-group-append ">
+      <span class="input-group-text " id="etat" style="color: #fff; background-color: #17a2b8; "  >&nbsp;&nbsp;&nbsp;&nbsp;Etat&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <button *ngIf="!estCreation()" class="btn btn-outline-dark btn-block" type='submit'>Enregister</button>
+  <button *ngIf="estCreation()" class="btn btn-outline-dark btn-block" type='submit'>Creer</button>
+
+  </div>
+  </div>
+<!-- <div class="col-4">
+<div class="input-group ">
+<input type='text' name='categorie' [ngModel]="[tache?.categorie]" class="form-control"/>
+<div class="input-group-append">
+  <span class="input-group-text" id="categorie" style="color: #fff; background-color: #17a2b8; margin:0; border:0;">Categorie</span>
+</div>
+</div> -->
+
+<!-- <div class="input-group ">
+<input type='date' name='deadline' [ngModel]="[tache?.deadline] | date :'yyyy-MM-dd'" class="form-control"/>
+<div class="input-group-append">
+    <span class="input-group-text" id="deadline" style="color: #fff; background-color: #17a2b8; margin:0; border:0;"  >Deadline</span>
+  </div>
+</div>
+</div>-->
+
+
+
+
+
+
+<!-- <div class="btn-toolbar justify-content-between " role="toolbar" aria-label="boutons">
+
+    <button *ngIf="!estCreation()" class='btn btn-info col-3' type='submit'>Enregister</button>
+    <button *ngIf="estCreation()" class='btn btn-info  col-3' type='submit'>Creer</button>
+
+
+
+    <div class="btn-group btn-group-toggle " data-toggle="buttons" id="etats" onClick='majClasseEtats();' >
+  <label class="btn btn-secondary " [class.active]="active(1)" >
+    <input type="radio" name="etat"  [ngModel]="[tache?.etat]"   value="1" ng-checked="isactive(1)"> Ouvert
+  </label>
+  <label class="btn btn-secondary "  [class.active]="active(2)" >
+    <input type="radio" name="etat"  [ngModel]="[tache?.etat]"   value="2" ng-checked="isactive(2)"> En pause
+  </label>
+  <label class="btn btn-secondary "   [class.active]="active(0)">
+    <input type="radio" name="etat"   [ngModel]="[tache?.etat]"  value="0" ng-checked="isactive(0)"> Fermé
+  </label>
+</div>
+</div> -->
+
+</form>

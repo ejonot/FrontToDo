@@ -1,0 +1,26 @@
+.image-checkbox input[type="checkbox"]
+       {
+           display: none;
+       }
+
+
+.image-checkbox {
+  cursor: pointer;
+  border-radius: .3rem;
+  border: 1px solid black;
+  padding:0.2em 0.5em;
+
+}
+  input[type="checkbox"]:checked + .fa{
+  opacity: 1;
+
+}
+
+input[type="checkbox"] + .fa{
+    opacity: 0.2;
+}
+
+
+[type="search"]:focus {
+  background-color: yellow;
+}
