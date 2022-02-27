@@ -1,5 +1,9 @@
 
-  <form  class="border border-info rounded form " #f="ngForm" style="color: #fff; background-color: #17a2b8;" (ngSubmit)='soumettre(f)' action="post" *ngIf="charge"  >
+  <form  class="border border-info rounded form "
+    style="color: #fff; background-color: #17a2b8;" 
+    #f="ngForm"  
+    (ngSubmit)='soumettre(f)'
+     action="post"   >
 
     <button type="button" class="close" (click)="sortir();"  aria-label="Close">
               <span aria-hidden="true">&times;</span>

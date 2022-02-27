@@ -3,6 +3,7 @@ import {throwError as ObservableThrowError, Observable} from 'rxjs'
 import {map, tap, catchError} from 'rxjs/operators'
 import { HttpClient,HttpHeaders, HttpClientModule ,HttpErrorResponse   } from '@angular/common/http';
 import {Tache } from '../tache';
+import { isNull } from 'util';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -11,7 +12,6 @@ const httpOptions = {
   })
 };
 
-const CREATION="x";
 const url="https://tachedown.firebaseio.com/";
 
 @Injectable({
@@ -19,28 +19,7 @@ const url="https://tachedown.firebaseio.com/";
 })
 export class TachesDAOService {
 
-idEdite : string;
 
-cleCreation() : string{
-  return CREATION;
-}
-editer(id){
- this.idEdite=id;
-}
-
-creer(){
-  this.idEdite=CREATION;
-}
-
-estCreation() : boolean{
-  return (  this.idEdite==CREATION);
-}
-estEdite(s) : boolean{
-    return (s &&  this.idEdite==s);
-}
-estEdition() : boolean{
-    return (this.idEdite!=null);
-}
 
   constructor(private client : HttpClient) {
 
@@ -72,8 +51,6 @@ estEdition() : boolean{
 
 
   getTache(key) : Observable<Tache[]>{
-
-
     //console.log(url+"taches/"+key+".json");
     return this.client.get<Tache[]>(url+"taches/"+key+".json").
     pipe(tap(data=>data),
@@ -97,7 +74,7 @@ estEdition() : boolean{
 
   // PUT :  Edit a tache
   editTache(tache: any, key: string): Observable<Tache> {
-      if(key==CREATION) return this.addTache(tache);
+    if(!this.getTache(key))  return this.addTache(tache);
     //console.log("editTache "+key);
      console.log(tache);
    var data=JSON.stringify(tache);

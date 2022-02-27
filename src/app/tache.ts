@@ -12,7 +12,6 @@ export class Tache {
     this.titre ="";
     this.description="";
     this.etat =1;
-    this.creation =new Date();
     this.deadline = this.initDeadline() ;
     this.categorie  ="";
     this.index=null;

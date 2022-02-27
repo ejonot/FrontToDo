@@ -2,6 +2,8 @@
 <nav class="navbar sticky-top navbar-dark bg-info">
   <a class="navbar-brand" href="#">TachesDown</a>
 
+ 
+  
   <div class="form-inline" >
     <div class="btn-group" role="group" aria-label="etats">
       <label class="image-checkbox" title="état : ouvert">
@@ -33,26 +35,47 @@
 </nav>
 
 <div class="container"  style="padding:20px;" *ngIf="taches?.length > 0">
-
+ 
   <div clas="row" *ngFor="let tache of taches ; let i=index; "  >
-
-    <div *ngIf="!estEdite(i) && estFiltre(i)" class="col-12 btn btn-outline-info" data-toggle="tooltip" title="{{tache.description}}"
-    draggable="true" (dragstart)="onDragStart($event);" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
-    [attr.data-index]="i">
+    <app-edition-tache 
+    *ngIf="  (idEdite$ | async) ==i"
+    [tache]="getTache(i)"
+    (onSoumettre)="onSoumettre($event)"
+    ></app-edition-tache>
+ 
+    <div *ngIf="(idEdite$ | async) !=i && estFiltre(i)"  >
+        <div class="col-12 btn btn-outline-info" 
+        data-toggle="tooltip" 
+        title="{{tache.description}}"
+        draggable="true" 
+        (dragstart)="onDragStart($event);" 
+        (dragover)="onDragOver($event)" 
+        (dragleave)="onDragLeave($event)" 
+        (drop)="onDrop($event)"
+        [attr.data-index]="i">
     {{tache.titre}}
-    <i *ngIf="!estCreation() && !estEdition()" class="fa fa-edit" (click)="editer(i);" style="float:right;"></i>
-  </div>
-
-  <app-edition-tache  *ngIf="estEdite(i)" (edite)="getTaches()"></app-edition-tache>
+    <i *ngIf="!(idEdite$ | async)" 
+        class="fa fa-edit" 
+        (click)="idEdite$.next(i);" 
+        style="float:right;"></i>
+        </div>
+      </div>
+  <!-- (edite)="getTaches()" -->
 
 </div>
-
 </div>
 
-<div class="text-center" *ngIf="!estCreation() && !estEdition()">
+
+<app-edition-tache  
+*ngIf=" (idEdite$ | async)==IDCREATION" 
+[tache]="getTache(IDCREATION)"
+(onSoumettre)="onSoumettre($event)"
+>
+</app-edition-tache>
+<div class="text-center" *ngIf="!(idEdite$ | async)" >
   <button class='btn btn-primary col-4' (click)="creer()">Créer </button>
 </div>
+<!-- (edite)="getTaches()" -->
 
-<app-edition-tache  *ngIf="estCreation()" (edite)="getTaches()"></app-edition-tache>
 
 <br/>

@@ -10,17 +10,20 @@ import {Tache } from '../tache';
 })
 export class EditionTacheComponent implements OnInit {
 
- tache : Tache;
- cle : string ;
+  @Input() tache? : Tache;
+ //cle : string ;
  charge :boolean;
-@Output() edite = new EventEmitter<any>();
+
+ @Output() onSoumettre = new EventEmitter<any>();
 
   constructor(private tachesDAO : TachesDAOService, private router:Router, ) {
 
   }
 
-  ngOnInit() {
-    this.cle=this.tachesDAO.idEdite;
+  ngOnInit() {  
+    console.log(this.tache.deadline);
+    //this.tache=new Tache(null);
+    /*this.cle=this.tachesDAO.idEdite;
         if(this.cle==this.tachesDAO.cleCreation()) {
           this.tache=new Tache(null);
           this.charge=true;
@@ -30,29 +33,30 @@ export class EditionTacheComponent implements OnInit {
        this.tache=new Tache(data);
        this.charge=true;
          //console.log(this.tache);
-     });
+     });*/
+
   //  console.log(this.cle);
   // console.log(this.tache);
   }
 
   estCreation(){
-    return this.tachesDAO.estCreation();
+    return !(this.tache && this.tache.creation)
+    //return this.tachesDAO.estCreation();
   }
 
   soumettre(form){
-  let newTache=new Tache(form.form.value);
 
-  if(this.estCreation()){
-    this.tachesDAO.addTache(newTache).subscribe(tache=>{this.sortir(); this.edite.emit();this.router.navigate([``]);});
-  }
-  else{
-      this.tachesDAO.editTache( newTache, this.cle).subscribe(tache=>{this.sortir();this.edite.emit(); this.router.navigate([``]);});
-  }
+  let newTache=new Tache(form.form.value);
+  if(this.estCreation()) this.tache.creation=new Date();
+  this.onSoumettre.emit(newTache);
+  
   }
 
 
   sortir()   {
-    this.tachesDAO.editer(null);
+    this.onSoumettre.emit(null);
+    //this.tache=new Tache(null);
+    //this.tachesDAO.editer(null);
   }
 
   resoudre(i){
