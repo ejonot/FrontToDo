@@ -11,7 +11,7 @@ import {Tache } from '../tache';
 export class EditionTacheComponent implements OnInit {
 
   @Input() tache? : Tache;
- //cle : string ;
+
  charge :boolean;
 
  @Output() onSoumettre = new EventEmitter<any>();
@@ -21,27 +21,11 @@ export class EditionTacheComponent implements OnInit {
   }
 
   ngOnInit() {  
-    console.log(this.tache.deadline);
-    //this.tache=new Tache(null);
-    /*this.cle=this.tachesDAO.idEdite;
-        if(this.cle==this.tachesDAO.cleCreation()) {
-          this.tache=new Tache(null);
-          this.charge=true;
-            //console.log(this.tache);
-        }
-     else this.tachesDAO.getTache(this.cle).subscribe(data=>{
-       this.tache=new Tache(data);
-       this.charge=true;
-         //console.log(this.tache);
-     });*/
-
-  //  console.log(this.cle);
-  // console.log(this.tache);
+    //console.log(this.tache.deadline);
   }
 
   estCreation(){
     return !(this.tache && this.tache.creation)
-    //return this.tachesDAO.estCreation();
   }
 
   soumettre(form){
@@ -55,8 +39,6 @@ export class EditionTacheComponent implements OnInit {
 
   sortir()   {
     this.onSoumettre.emit(null);
-    //this.tache=new Tache(null);
-    //this.tachesDAO.editer(null);
   }
 
   resoudre(i){
