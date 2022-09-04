@@ -12,7 +12,7 @@ export class Tache {
     this.titre ="";
     this.description="";
     this.etat =1;
-    this.deadline = this.initDeadline() ;
+    this.deadline =this.defaultDeadline();
     this.categorie  ="";
     this.index=null;
 
@@ -21,12 +21,18 @@ export class Tache {
     if(data && data['categorie']) this.categorie=(Array.isArray(data['categorie'])?data['categorie'][0] : data['categorie']);
     if(data && data['etat']) this.etat=(Array.isArray(data['etat'])?data['etat'][0]  :data['etat']);
     if(data && data['creation']) this.creation=new Date(data['creation']);
-    if(data && data['deadline']) this.deadline=new Date(data['deadline']);
-     if(data && data['index']) this.index=(Array.isArray(data['index'])? data['index'][0] : data['index']);
+    if(data && data['deadline']) { this.deadline=new Date(data['deadline']);}
+    if(data && data['index']) this.index=(Array.isArray(data['index'])? data['index'][0] : data['index']);
   }
-  initDeadline() : Date{
-    var date=new Date();
-    date.setDate(date.getDate() + 30);
-    return date;
+  defaultDeadline() : Date{
+    if(this.estCreation){
+      var date=new Date();
+      date.setDate(date.getDate() + 30);
+      return date;
+    }
+    return this.deadline;
+  }
+  estCreation():boolean{
+    return (this.creation!=null);
   }
 }

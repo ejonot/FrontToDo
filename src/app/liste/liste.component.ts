@@ -5,12 +5,8 @@ import { Subject } from 'rxjs';
 import { TachesDAOService } from '../dao/taches-dao.service';
 import { Tache } from '../tache';
 
-//import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-//import { ValueSansProvider } from '@angular/core/src/di/provider';
-
-//ToDo : déplacer dans le DAO
-function array_move(arr, old_index, new_index) {
   //Deplacer un element dans un Array 
+function array_move(arr, old_index, new_index) {
   if (new_index >= arr.length) {
     var k = new_index - arr.length + 1;
     while (k--) {
@@ -18,7 +14,7 @@ function array_move(arr, old_index, new_index) {
     }
   }
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-  return arr; // for testing
+  return arr; 
 };
 
 
@@ -30,23 +26,21 @@ function array_move(arr, old_index, new_index) {
 
 export class ListeComponent implements OnInit {
 
+
   etats;
   categorie;
   texte;
 
-  //Liste des id ordonnée par leur index 
+  //Liste des id ordonnée par les index des taches
   index;
-  //Liste des taches ordonnées par leur id
+  //Liste des taches ordonnées par leur index
   taches;
   //Liste des categories
   categories;
 
   idEdite$: Subject<number>; 
-  //tacheEdite: Tache;
   idEdite: number;
   IDCREATION : number;
-
-  //test: boolean;
 
   constructor(private client: HttpClient, private tachesDAO: TachesDAOService) {
     this.idEdite$ = new Subject;  
@@ -80,12 +74,12 @@ export class ListeComponent implements OnInit {
     return(this.idEdite==idATester);
   }
 
-  editer(id: number):void{
+ /* editer(id: number):void{
     if(this.index[id]) {
       this.idEdite$.next(id);
       console.log("editer " + id);
     }
-  }
+  }*/
 
   creer():void {
     this.IDCREATION=this.index.length; 
@@ -117,7 +111,7 @@ export class ListeComponent implements OnInit {
      );
     
 
-    //Mettre à jour la liste des tâches avec un listener 
+
   }
 
   edition(tache: Tache, id) {
@@ -127,18 +121,23 @@ export class ListeComponent implements OnInit {
       error => console.log("Edition échouée " + error) });
   }
 
-
+    //Mettre à jour la liste des tâches avec un Observable
+    // La liste doit être triée (et idéalement filtrée)
   getTaches(): void {
 
     this.tachesDAO.getTaches().subscribe(data => {
+      console.log("Liste componenet - getTaches "+data);
       var donnees = data;
       this.index = Object.keys(data);
+      //Ordonner la liste des id par l'index de leur objet
       this.index.sort((a, b) => {
         return data[a].index - data[b].index;
       });
 
       this.taches = [];
       this.categories = [];
+
+      //parcours des id dans l'ordre de leur index
       for (var i in this.index) {
         var cle = this.index[i];
         if (cle) {
@@ -147,12 +146,14 @@ export class ListeComponent implements OnInit {
             this.taches.push(tache);
             if (tache.categorie && this.categories.indexOf(tache.categorie) === -1) this.categories.push(tache.categorie);
           }
-
+          else {
+            console.log("Liste componenets - getTaches : id "+cle+" sans correspondances ?");
+          }
         }
       }
       this.IDCREATION=this.index.length;
     });
-    //console.log(this.taches);
+   
   }
 
   //ToDo : paser côte DAO
